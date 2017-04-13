@@ -1,1 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<!-- 扫描com.baobaotao.dao包下所有标注为@Repository的DAO组件 -->
+	<context:component-scan base-package="com.baobaotao.dao"/>
+
+	<!-- 引入定义JDBC连接的属性文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+	
+	<!-- 定义一个数据源 -->
+	<bean id ="dataSource" 
+		  class="org.apache.commons.dbcp.BasicDataSource"
+		  destroy-method="close"
+		  p:driverClassName="${jdbc.driverClassName}"
+		  p:url="${jdbc.url}"
+		  p:username="${jdbc.username}"
+		  p:password="{jdbc.passwork}"/>
+		  
+	<!-- 定义Hibernate的session -->
+	<bean id="sessionFactory"
+		  class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 扫描基于JPA注解PO类目录 -->
+		<property name="packagesToScan">  
+			<list>
+				<value>com.baobaotao.domain</value>
+			</list>
+		</property>
+		<!-- 制定hibernate的属性信息 -->
+		<property name="hibernateProperties">
+			<props>
+				<!-- 制定数据库的类型为MySQL -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+			</props>
+		</property> 
+		<!-- 配置缓存策略 -->
+		<property name="entityCacheStrategies">
+			<props>
+				<prop key="com.baobaotao.domain.Board">nonstrict-read-write,fixedRegion</prop>
+				<prop key="com.baobaotao.domain.User">nonstrict-read-write,freqChangeRegion</prop>
+				<prop key="com.baobaotao.domain.Topic">nonstrict-read-write,freqChangeRegion</prop>
+				<prop key="com.baobaotao.domain.Post">nonstrict-read-write,freqChangeRegion</prop>
+			</props>
+		</property> 
+	</bean>
+	
+	<!-- 定义hibernateTemplate -->
+	<bean id="hibernateTemplate"
+		  class="org.springframework.orm.hibernate3.HibernateTemplate"
+		  p:sessionFactory-ref="sessionFactory"/>
+		
+</beans>
