@@ -16,12 +16,12 @@
 	
 	<!-- 定义一个数据源 -->
 	<bean id ="dataSource" 
-		  class="org.apache.commons.dbcp.BasicDataSource"
+		  class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		  destroy-method="close"
 		  p:driverClassName="${jdbc.driverClassName}"
 		  p:url="${jdbc.url}"
 		  p:username="${jdbc.username}"
-		  p:password="{jdbc.passwork}"/>
+		  p:password="${jdbc.password}"/>
 		  
 	<!-- 定义Hibernate的session -->
 	<bean id="sessionFactory"
