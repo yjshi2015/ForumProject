@@ -23,8 +23,11 @@ public class BaseDao<T> {
 	
 	//通过反射获取子类确定的泛型类
 	public BaseDao() {
+		//getclass获得运行时类，即子类(重点！)，getGenericSuperclass()获取包含泛型的父类，即BaseDao<User>
 		Type genType = getClass().getGenericSuperclass();
+		//对包含泛型的父类参数化泛型，并获取泛型
 		Type[] params = ((ParameterizedType)genType).getActualTypeArguments();
+		//把泛型付给entityClass属性
 		entityClass = (Class)params[0];
 	}
 	

@@ -48,7 +48,7 @@ public class UserService {
     }
 	
 
-	   /**
+	/**
      * 根据用户名/密码查询 User对象
      * @param userName 用户名
      * @return User
