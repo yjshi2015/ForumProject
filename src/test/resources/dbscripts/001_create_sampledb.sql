@@ -1,4 +1,23 @@
-DROP TABLE T_BOARD IF EXISTS;
+
+USE springdb;
+
+drop index IDX_POST_TOPIC_ID on t_post;
+
+drop index IDX_TOPIC_TITLE on t_topic;
+
+drop index IDX_TOPIC_USER_ID on t_topic;
+
+drop table if exists t_board;
+
+drop table if exists t_board_manager;
+
+drop table if exists t_post;
+
+drop table if exists t_topic;
+
+drop table if exists t_user;
+
+drop table if exists t_login_log;
 
 CREATE TABLE t_board (
   board_id int(11) NOT NULL auto_increment COMMENT '论坛版块ID',
@@ -9,7 +28,8 @@ CREATE TABLE t_board (
   KEY AK_Board_NAME (board_name)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
-DROP TABLE T_BOARD_MANAGER IF EXISTS;
+
+
 
 CREATE TABLE t_board_manager (
   board_id int(11) NOT NULL,
@@ -17,7 +37,7 @@ CREATE TABLE t_board_manager (
   PRIMARY KEY  (board_id,user_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='论坛管理员';
 
-DROP TABLE T_LOGIN_LOG IF EXISTS;
+
 
 CREATE TABLE t_login_log (
   login_log_id int(11) NOT NULL auto_increment,
@@ -27,7 +47,7 @@ CREATE TABLE t_login_log (
   PRIMARY KEY  (login_log_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE T_POST IF EXISTS;
+
 
 CREATE TABLE t_post (
   post_id int(11) NOT NULL auto_increment COMMENT '帖子ID',
@@ -42,7 +62,10 @@ CREATE TABLE t_post (
   KEY IDX_POST_TOPIC_ID (topic_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='帖子';
 
-DROP TABLE T_TOPIC IF EXISTS;
+
+
+
+
 
 CREATE TABLE t_topic (
   topic_id int(11) NOT NULL auto_increment COMMENT '帖子ID',
@@ -59,7 +82,11 @@ CREATE TABLE t_topic (
   KEY IDX_TOPIC_TITLE (topic_title)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='话题';
 
-DROP TABLE T_USER IF EXISTS;
+
+
+
+
+
 
 CREATE TABLE t_user (
   user_id int(11) NOT NULL auto_increment COMMENT '用户Id',

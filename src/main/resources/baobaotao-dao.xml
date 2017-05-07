@@ -16,7 +16,7 @@
 	
 	<!-- 定义一个数据源 -->
 	<bean id ="dataSource" 
-		  class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		  class="org.apache.commons.dbcp.BasicDataSource"
 		  destroy-method="close"
 		  p:driverClassName="${jdbc.driverClassName}"
 		  p:url="${jdbc.url}"
@@ -48,8 +48,8 @@
 			<props>
 				<prop key="com.baobaotao.domain.Board">nonstrict-read-write,fixedRegion</prop>
 				<prop key="com.baobaotao.domain.User">nonstrict-read-write,freqChangeRegion</prop>
-				<prop key="com.baobaotao.domain.Topic">nonstrict-read-write,freqChangeRegion</prop>
-				<prop key="com.baobaotao.domain.Post">nonstrict-read-write,freqChangeRegion</prop>
+				<prop key="com.baobaotao.domain.Topic">read-write,freqChangeRegion</prop>
+				<prop key="com.baobaotao.domain.Post">read-write,freqChangeRegion</prop>
 			</props>
 		</property> 
 	</bean>
