@@ -20,15 +20,14 @@ public class ForumService {
 	@Autowired
 	private PostDao postDao;
 	
-	
-
 	/**
 	 * 发表一个主题帖子,用户积分加10，论坛版块的主题帖数加1
 	 * @param topic
 	 */
 	public void addTopic(Topic topic) {
 		Board board = (Board) boardDao.get(topic.getBoardId());
-		board.setTopicNum(board.getTopicNum() + 1);	
+		board.setTopicNum(board.getTopicNum() + 1);
+		boardDao.save(board);
 		topicDao.save(topic);
 		//topicDao.getHibernateTemplate().flush();
 		
@@ -57,10 +56,12 @@ public class ForumService {
 		// 将论坛版块的主题帖数减1
 		Board board = boardDao.get(topic.getBoardId());
 		board.setTopicNum(board.getTopicNum() - 1);
+		boardDao.update(board);
 
 		// 发表该主题帖用户扣除50积分
 		User user = topic.getUser();
 		user.setCredit(user.getCredit() - 50);
+		userDao.update(user);
 
 		// 删除主题帖及其关联的帖子
 		topicDao.remove(topic);
@@ -93,7 +94,8 @@ public class ForumService {
 		Post post = postDao.get(postId);
 		postDao.remove(post);
 		
-		Topic topic = topicDao.get(post.getTopic().getTopicId());
+//		Topic topic = topicDao.get(post.getTopic().getTopicId());
+		Topic topic = post.getTopic();
 		topic.setReplies(topic.getReplies() - 1);
 		
 		User user =post.getUser();
@@ -157,7 +159,7 @@ public class ForumService {
     }
     
     /**
-     * 获取同主题每一页帖子，以最后回复时间降序排列
+     * 获取同主题某一页帖子，以最后回复时间降序排列
      * @param boardId
      * @return
      */
@@ -168,9 +170,7 @@ public class ForumService {
 
 	/**
 	 * 查找出所有包括标题包含title的主题帖
-	 * 
-	 * @param title
-	 *            标题查询条件
+	 * @param title  标题查询条件
 	 * @return 标题包含title的主题帖
 	 */
 	public Page queryTopicByTitle(String title,int pageNo,int pageSize) {
@@ -179,7 +179,6 @@ public class ForumService {
 	
 	/**
 	 * 根据boardId获取Board对象
-	 * 
 	 * @param boardId
 	 */
 	public Board getBoardById(int boardId) {

@@ -28,6 +28,6 @@ public class TopicDao extends BaseDao<Topic> {
 	
 	//获取和主题帖标题模糊匹配的主题帖
 	public Page queryTopicByTitle(String title, int pageNo, int pageSize) {
-		return pageQuery(QUERY_TOPIC_BY_TITLE, pageNo, pageSize);
+		return pageQuery(QUERY_TOPIC_BY_TITLE, pageNo, pageSize, title);
 	}
 }
