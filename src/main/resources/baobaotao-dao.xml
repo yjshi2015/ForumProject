@@ -5,12 +5,12 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="
-    http://www.springframework.org/schema/beans 
-    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
-    http://www.springframework.org/schema/context 
-    http://www.springframework.org/schema/context/spring-context-4.2.xsd
-    http://www.springframework.org/schema/tx 
-    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	    http://www.springframework.org/schema/beans 
+	    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	    http://www.springframework.org/schema/context 
+	    http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	    http://www.springframework.org/schema/tx 
+	    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 	<!-- 扫描com.baobaotao.dao包下所有标注为@Repository的DAO组件 -->
 	<context:component-scan base-package="com.baobaotao.dao"/>
@@ -31,12 +31,19 @@
 	<bean id="sessionFactory"
 		  class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
-		<!-- 扫描基于JPA注解PO类目录 -->
-		<property name="packagesToScan">  
+		
+		<property name="annotatedPackages">
 			<list>
-				<value>com.baobaotao.domain</value>
+				<value>com.baobaotao.domain.BaseDomain</value>
+				<value>com.baobaotao.domain.Board</value>
+				<value>com.baobaotao.domain.LoginLog</value>
+				<value>com.baobaotao.domain.MainPost</value>
+				<value>com.baobaotao.domain.Post</value>
+				<value>com.baobaotao.domain.Topic</value>
+				<value>com.baobaotao.domain.User</value>
 			</list>
 		</property>
+		
 		<!-- 制定hibernate的属性信息 -->
 		<property name="hibernateProperties">
 			<props>
@@ -51,7 +58,7 @@
 		<property name="entityCacheStrategies">
 			<props>
 				<prop key="com.baobaotao.domain.Board">nonstrict-read-write,fixedRegion</prop>
-				<prop key="com.baobaotao.domain.User">nonstrict-read-write,freqChangeRegion</prop>
+				<prop key="com.baobaotao.domain.User">nonstrict-read-write,fixedRegion</prop>
 				<prop key="com.baobaotao.domain.Topic">read-write,freqChangeRegion</prop>
 				<prop key="com.baobaotao.domain.Post">read-write,freqChangeRegion</prop>
 			</props>

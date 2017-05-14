@@ -10,7 +10,7 @@ import com.baobaotao.domain.Board;
 @Repository
 public class BoardDao extends BaseDao<Board> {
 
-	protected final String GET_BOARD_NUM = "select count(1) from Board f";
+	protected final String GET_BOARD_NUM = "select count(1) from Board";
 	
 	//获取论坛版块数目
 	public long getBoardNum() {
